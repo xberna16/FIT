@@ -1,0 +1,227 @@
+--- dirgraph.odevzdany	2017-04-14 20:20:42.883715000 +0200
++++ dirgraph	2017-04-14 21:38:20.000000000 +0200
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/ksh
+ if [ "$#" -gt 4 ]; then 
+ 	echo "Spatny pocet parametru"
+ 	exit 2
+@@ -43,7 +43,7 @@
+ #for soubor in $LSOut 
+ #do 
+ #	soubor=`echo $soubor | sed -r 's/\/\/\// /g'`
+-#	echo "$soubor" | grep -q "$ignore"
++#	echo "$soubor" | egrep -q "$ignore"
+ #	if [ "$?" -eq 0 ];
+ #	then
+ #		continue
+@@ -65,19 +65,19 @@
+ 
+ #echo "filecount: $fileCount"
+ #echo "dircount: $dirCount"
+-findOut=`echo $(find $DirPath -type f -not -name "$ignore" 2> /dev/null)`
++findOut=`echo $(find $DirPath -type f | egrep -v "$ignore")`
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-fileOut=$(find $DirPath -type f -not -name "$ignore" 2> /dev/null -exec file -b {} \; | colrm 42)
++fileOut=$(find $DirPath -type f -print | egrep -v "$ignore" | file -b -f - | colrm 42)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-dirCount=`find $DirPath -type d -not -name "$ignore" 2> /dev/null | wc -l`
++dirCount=`find $DirPath -type d | egrep -v "$ignore" | wc -l | sed -r 's/ //g'`
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-fileCount=`find $DirPath -type f -not -name "$ignore" 2> /dev/null | wc -l`
++fileCount=`find $DirPath -type f | egrep -v "$ignore" | wc -l | sed -r 's/ //g'`
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+@@ -97,42 +97,73 @@
+ fi
+ 
+ 
+-size1=$(find $DirPath -size -100c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size1=$(find $DirPath -size -100c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size2=$(find $DirPath -not -size -100c -size -1024c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size2=$(find $DirPath -not -size -100c -size -1024c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size3=$(find $DirPath -not -size -1024c -size -10240c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size3=$(find $DirPath -not -size -1024c -size -10240c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size4=$(find $DirPath -not -size -10240c -size -102400c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size4=$(find $DirPath -not -size -10240c -size -102400c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size5=$(find $DirPath -not -size -102400c -size -1048576c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size5=$(find $DirPath -not -size -102400c -size -1048576c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size6=$(find $DirPath -not -size -1048576c -size -10485760c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size6=$(find $DirPath -not -size -1048576c -size -10485760c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size7=$(find $DirPath -not -size -10485760c -size -104857600c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size7=$(find $DirPath -not -size -10485760c -size -104857600c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size8=$(find $DirPath -not -size -104857600c -size -1073741824c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size8=$(find $DirPath -not -size -104857600c -size -1073741824c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size9=$(find $DirPath -not -size -1073741824c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size9=$(find $DirPath -not -size -1073741824c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
++outCount="9"
++maxNormal="0"
++while [ "$outCount" -gt 0 ]; do
++eval sizeVal='$'size$outCount 
++outCount=$((outCount-1))
++if [ "$sizeVal" -gt "$maxNormal" ]; then
++maxNormal="$sizeVal"
++fi
++done
++
++
++remCols=$((colNr-12))
++if [ "$maxNormal" -ge "$remCols" ]; then
++	pomer=$(echo "scale=10;($colNr-12)/$maxNormal" | bc )
++	#echo "pomer: " $pomer
++	outCount="9"
++	while [ "$outCount" -gt 0 ]; do
++		sizeVal="\$size$outCount"
++		eval curVal=$sizeVal 
++		curVal=$(echo "$pomer * $curVal" | bc)
++		curVal=`echo "($curVal + .5)/1" | bc`
++		#echo $curVal
++		eval size"$outCount"=$curVal
++
++		eval curVal=$sizeVal 
++		#echo $curVal
++		outCount=$((outCount-1))
++	done
++fi
++
++
+ printf "  <100 B  : "
+ remCols=$((colNr-12))
+ while [[ $size1 -ne 0 ]]; do
+@@ -252,7 +283,22 @@
+ printf "\n"
+ 
+ echo "File type histogram:"
+-
++	maxNormal=` echo "$fileOut" | sort | uniq -c  | sed -r 's/ [\D]*//g' | awk '{gsub(/[^0-9](.*)/, ""); print }' | sort -gr | head -n1` 
++	#echo "$fileOut" | sort | uniq -c  | sed -r 's/ [\D]*//g'  | awk '{gsub(/([\D]).*$/, ""); print }' | sort -gr 
++	#echo "$fileOut" | sort | uniq -c  | awk '{gsub(/ .*$/, ""); print }' | sort -gr 
++	#do
++	#	typeCount=`echo $typeLine | sed -r 's/ .*$//g'`
++	#	echo typecount "$typeCount"
++	#	if [ "$typeCount" -gt "$maxNormal" ]; then
++	#		maxNormal=$typeCount
++	#	fi
++	#done
++	remCols=$((colNr-47))
++	if [ "$maxNormal" -gt "$remCols" ]; then
++	pomer=$(echo "scale=10;($colNr-47)/$maxNormal" | bc )	
++	else
++	pomer="1"
++	fi
+ 	echo "$fileOut" | sort | uniq -c  | while read typeLine;
+ 	do
+ 		
+@@ -261,7 +307,7 @@
+ 		fi
+ 		#echo "yyy $typeLine yyy"
+ 		type=`echo $typeLine | sed -r 's/^[^\s]+ +//g'`
+-		type=`echo $typeLine | sed -r 's/[1-9]+ //g'`
++		type=`echo $typeLine | sed -r 's/[0-9]+ //g'`
+ 		typeCount=`echo $typeLine | sed -r 's/ .*$//g'`
+ 		#echo "xxx $typeCount xxx"
+ 		if [ ${#type} -gt "40" ]; then
+@@ -279,6 +325,11 @@
+ 			printf ": "
+ 		fi
+ 		remCols=$((colNr-47))
++		
++		typeCount=`echo "(($typeCount * $pomer)+.5)/1" | bc`
++		if [ $typeCount -eq 0 ]; then
++		typeCount="1"
++		fi
+ 		for i in `seq 1 $typeCount`
+ 		do
+ 			printf "#"
+@@ -294,39 +345,39 @@
+ else
+ 
+ echo "File size histogram:"
+-size1=$(find $DirPath -size -100c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size1=$(find $DirPath -size -100c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size2=$(find $DirPath -not -size -100c -size -1024c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size2=$(find $DirPath -not -size -100c -size -1024c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size3=$(find $DirPath -not -size -1024c -size -10240c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size3=$(find $DirPath -not -size -1024c -size -10240c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size4=$(find $DirPath -not -size -10240c -size -102400c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size4=$(find $DirPath -not -size -10240c -size -102400c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size5=$(find $DirPath -not -size -102400c -size -1048576c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size5=$(find $DirPath -not -size -102400c -size -1048576c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size6=$(find $DirPath -not -size -1048576c -size -10485760c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size6=$(find $DirPath -not -size -1048576c -size -10485760c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size7=$(find $DirPath -not -size -10485760c -size -104857600c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size7=$(find $DirPath -not -size -10485760c -size -104857600c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size8=$(find $DirPath -not -size -104857600c -size -1073741824c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size8=$(find $DirPath -not -size -104857600c -size -1073741824c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+-size9=$(find $DirPath -not -size -1073741824c -type f ! -name "$ignore" 2> /dev/null | wc -l)
++size9=$(find $DirPath -not -size -1073741824c -type f | egrep -v "$ignore" | wc -l)
+ if [ "$?" -ne "0" ]; then
+ ec="2"
+ fi
+@@ -405,7 +456,7 @@
+ 		fi
+ 		#echo "yyy $typeLine yyy"
+ 		type=`echo $typeLine | sed -r 's/^[^\s]+ +//g'`
+-		type=`echo $typeLine | sed -r 's/[1-9]+ //g'`
++		type=`echo $typeLine | sed -r 's/[0-9]+ //g'`
+ 		typeCount=`echo $typeLine | sed -r 's/ .*$//g'`
+ 		#echo "xxx $typeCount xxx"
+ 		if [ ${#type} -gt "40" ]; then

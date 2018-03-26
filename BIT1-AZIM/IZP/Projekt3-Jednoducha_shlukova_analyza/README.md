@@ -1,0 +1,1 @@
+Projekt3-Jednoducha_shlukova_analyza

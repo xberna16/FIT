@@ -1,0 +1,434 @@
+#!/bin/sh
+if [ "$#" -gt 4 ]; then 
+	echo "Spatny pocet parametru"
+	exit 2
+fi
+nparam=false
+while [ $# -ne 0 ]; do
+	case $1 in
+		-i) shift
+		if [ $# -ne 0 ] ; then
+		ignore=$1
+		else
+		echo "Spatne parametry"
+		exit 2
+		fi	
+		;;
+		-n) nparam=true	;;
+		*) DirPath=$1;;
+	esac
+	shift 
+done
+ec="0"
+#ls $DirPath
+if [ -z "$ignore" ];
+then
+	ignore="a^"
+fi
+ 
+
+#echo $(find $DirPath)
+if [ -z "$DirPath" ]; then
+DirPath='./'
+fi
+
+#LSOut=`echo $(find $DirPath 2> /dev/null) | sed -r 's/ /\/\/\//g'` 
+
+#LSOut=`echo $LSOut | sed -r 's/\/\/\/\.\// \.\//g'`
+#echo "nahrazenimezery " $LSOut
+
+#LSOut=`echo $LSOut | sed -r 's/\\\\/ \.\//g'`
+
+
+#for soubor in $LSOut 
+#do 
+#	soubor=`echo $soubor | sed -r 's/\/\/\// /g'`
+#	echo "$soubor" | grep -q "$ignore"
+#	if [ "$?" -eq 0 ];
+#	then
+#		continue
+#	fi
+#	types=`file "$soubor" | sed -r 's/(.*: )//g'`
+#	
+#	if [ "$types" == "directory" ]; then 
+#		dirCount=$((dirCount+1))
+#	else
+#		fileOut=$fileOut"\n"$types
+#		fileCount=$((fileCount+1))
+#	fi
+#	#echo "xxx" $types
+#done
+#echo -e "$fileOut"
+
+#echo -e "$fileOut" | sort | uniq -c
+
+
+#echo "filecount: $fileCount"
+#echo "dircount: $dirCount"
+findOut=`echo $(find $DirPath -type f -not -name "$ignore" 2> /dev/null)`
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+fileOut=$(find $DirPath -type f -not -name "$ignore" 2> /dev/null -exec file -b {} \; | colrm 42)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+dirCount=`find $DirPath -type d -not -name "$ignore" 2> /dev/null | wc -l`
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+fileCount=`find $DirPath -type f -not -name "$ignore" 2> /dev/null | wc -l`
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+
+
+echo "Root directory: $DirPath
+Directories: $dirCount
+All files: $fileCount"
+if [ "$nparam" == "true" ];then
+
+	
+echo "File size histogram:"
+colNr=$(tput cols)
+colNr=$((colNr-1))
+if [ ! -t 1 ]; then
+	colNr="79"
+fi
+
+
+size1=$(find $DirPath -size -100c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size2=$(find $DirPath -not -size -100c -size -1024c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size3=$(find $DirPath -not -size -1024c -size -10240c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size4=$(find $DirPath -not -size -10240c -size -102400c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size5=$(find $DirPath -not -size -102400c -size -1048576c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size6=$(find $DirPath -not -size -1048576c -size -10485760c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size7=$(find $DirPath -not -size -10485760c -size -104857600c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size8=$(find $DirPath -not -size -104857600c -size -1073741824c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size9=$(find $DirPath -not -size -1073741824c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+printf "  <100 B  : "
+remCols=$((colNr-12))
+while [[ $size1 -ne 0 ]]; do
+    printf "#"
+	
+    ((size1=size1-1))
+	remCols=$((remCols-1))
+	if [ "$remCols" -eq "0" ]; then
+		break
+		printf "\n"
+	fi
+done
+printf "\n"
+
+remCols=$((colNr-12))
+printf "  <1 KiB  : "
+while [[ $size2 -ne 0 ]]; do
+    printf "#"
+    ((size2=size2-1))
+	remCols=$((remCols-1))
+	if [ "$remCols" -eq "0" ]; then
+		break
+		printf "\n"
+	fi
+done
+printf "\n"
+
+remCols=$((colNr-12))
+printf "  <10 KiB : "
+while [[ $size3 -ne 0 ]]; do
+    printf "#"
+    ((size3=size3-1))
+	remCols=$((remCols-1))
+	if [ "$remCols" -eq "0" ]; then
+		break
+		printf "\n"
+	fi
+done
+printf "\n"
+ 
+remCols=$((colNr-12))
+printf "  <100 KiB: "
+while [[ $size4 -ne 0 ]]; do
+    printf "#"
+    ((size4=size4-1))
+	remCols=$((remCols-1))
+	if [ "$remCols" -eq "0" ]; then
+		break
+		printf "\n"
+	fi
+done
+printf "\n"
+ 
+remCols=$((colNr-12)) 
+printf "  <1 MiB  : "
+while [[ $size5 -ne 0 ]]; do
+    printf "#"
+    ((size5=size5-1))
+	remCols=$((remCols-1))
+	if [ "$remCols" -eq "0" ]; then
+		break
+		printf "\n"
+	fi
+done
+printf "\n"
+ 
+ remCols=$((colNr-12))
+printf "  <10 MiB : "
+while [[ $size6 -ne 0 ]]; do
+    printf "#"
+    ((size6=size6-1))
+	remCols=$((remCols-1))
+	if [ "$remCols" -eq "0" ]; then
+		break
+		printf "\n"
+	fi
+done
+printf "\n"
+ 
+remCols=$((colNr-12)) 
+printf "  <100 MiB: "
+while [[ $size7 -ne 0 ]]; do
+    printf "#"
+    ((size7=size7-1))
+	remCols=$((remCols-1))
+	if [ "$remCols" -eq "0" ]; then
+		break
+		printf "\n"
+	fi
+done
+printf "\n"
+ 
+remCols=$((colNr-12)) 
+printf "  <1 GiB  : "
+while [[ $size8 -ne 0 ]]; do
+    printf "#"
+    ((size8=size8-1))
+	remCols=$((remCols-1))
+	if [ "$remCols" -eq "0" ]; then
+		break
+		printf "\n"
+	fi
+done
+printf "\n"
+ 
+remCols=$((colNr-12)) 
+printf "  >=1 GiB : "
+while [[ $size9 -ne 0 ]]; do
+    printf "#"
+    ((size9=size9-1))
+	remCols=$((remCols-1))
+	if [ "$remCols" -eq "0" ]; then
+		break
+		printf "\n"
+	fi
+done
+printf "\n"
+
+echo "File type histogram:"
+
+	echo "$fileOut" | sort | uniq -c  | while read typeLine;
+	do
+		
+		if [ "$typeLine" == "1" ]; then
+			continue
+		fi
+		#echo "yyy $typeLine yyy"
+		type=`echo $typeLine | sed -r 's/^[^\s]+ +//g'`
+		type=`echo $typeLine | sed -r 's/[1-9]+ //g'`
+		typeCount=`echo $typeLine | sed -r 's/ .*$//g'`
+		#echo "xxx $typeCount xxx"
+		if [ ${#type} -gt "40" ]; then
+			printf "  ${type:0:40}...: "
+		else
+			spaceCount=${#type}
+			#echo "spaceBef: $spaceCount "
+			spaceCount=$((40-spaceCount))
+			#echo "spacecount : $spaceCount "
+			printf "  $type"
+			for i in `seq -2 "$spaceCount"`
+			do
+				printf " "
+			done
+			printf ": "
+		fi
+		remCols=$((colNr-47))
+		for i in `seq 1 $typeCount`
+		do
+			printf "#"
+			remCols=$((remCols-1))
+			if [ "$remCols" -eq "0" ]; then
+				break
+				printf "\n"
+			fi
+		done
+		
+		echo
+	done
+else
+
+echo "File size histogram:"
+size1=$(find $DirPath -size -100c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size2=$(find $DirPath -not -size -100c -size -1024c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size3=$(find $DirPath -not -size -1024c -size -10240c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size4=$(find $DirPath -not -size -10240c -size -102400c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size5=$(find $DirPath -not -size -102400c -size -1048576c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size6=$(find $DirPath -not -size -1048576c -size -10485760c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size7=$(find $DirPath -not -size -10485760c -size -104857600c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size8=$(find $DirPath -not -size -104857600c -size -1073741824c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+size9=$(find $DirPath -not -size -1073741824c -type f ! -name "$ignore" 2> /dev/null | wc -l)
+if [ "$?" -ne "0" ]; then
+ec="2"
+fi
+printf "  <100 B  : "
+while [[ $size1 -ne 0 ]]; do
+    printf "#"
+    ((size1=size1-1))
+done
+printf "\n"
+ 
+
+printf "  <1 KiB  : "
+while [[ $size2 -ne 0 ]]; do
+    printf "#"
+    ((size2=size2-1))
+done
+printf "\n"
+ 
+printf "  <10 KiB : "
+while [[ $size3 -ne 0 ]]; do
+    printf "#"
+    ((size3=size3-1))
+done
+printf "\n"
+ 
+printf "  <100 KiB: "
+while [[ $size4 -ne 0 ]]; do
+    printf "#"
+    ((size4=size4-1))
+done
+printf "\n"
+ 
+printf "  <1 MiB  : "
+while [[ $size5 -ne 0 ]]; do
+    printf "#"
+    ((size5=size5-1))
+done
+printf "\n"
+ 
+printf "  <10 MiB : "
+while [[ $size6 -ne 0 ]]; do
+    printf "#"
+    ((size6=size6-1))
+done
+printf "\n"
+ 
+printf "  <100 MiB: "
+while [[ $size7 -ne 0 ]]; do
+    printf "#"
+    ((size7=size7-1))
+done
+printf "\n"
+ 
+printf "  <1 GiB  : "
+while [[ $size8 -ne 0 ]]; do
+    printf "#"
+    ((size8=size8-1))
+done
+printf "\n"
+ 
+printf "  >=1 GiB : "
+while [[ $size9 -ne 0 ]]; do
+    printf "#"
+    ((size9=size9-1))
+done
+printf "\n"
+
+
+echo "File type histogram:"
+
+	echo "$fileOut" | sort | uniq -c  | while read typeLine;
+	do
+		
+		if [ "$typeLine" == "1" ]; then
+			continue
+		fi
+		#echo "yyy $typeLine yyy"
+		type=`echo $typeLine | sed -r 's/^[^\s]+ +//g'`
+		type=`echo $typeLine | sed -r 's/[1-9]+ //g'`
+		typeCount=`echo $typeLine | sed -r 's/ .*$//g'`
+		#echo "xxx $typeCount xxx"
+		if [ ${#type} -gt "40" ]; then
+			printf "  ${type:0:40}...: "
+		else
+			spaceCount=${#type}
+			#echo "spaceBef: $spaceCount "
+			spaceCount=$((40-spaceCount))
+			#echo "spacecount : $spaceCount "
+			printf "  $type"
+			for i in `seq -2 "$spaceCount"`
+			do
+				printf " "
+			done
+			printf ": "
+		fi
+		for i in `seq 1 $typeCount`
+		do
+			printf "#"
+		done
+		
+		echo
+	done
+
+fi
+exit $ec
