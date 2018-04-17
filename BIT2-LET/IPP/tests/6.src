@@ -1,0 +1,9 @@
+.IPPcode18
+JUMP start
+LABEL funkce
+WRITE string@JsemVeFunkci
+RETURN
+LABEL start
+WRITE string@VolamFunkci
+CALL funkce
+WRITE string@Konec

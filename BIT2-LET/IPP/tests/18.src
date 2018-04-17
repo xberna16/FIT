@@ -1,0 +1,17 @@
+.IPPcode18
+DEFVAR GF@A
+DEFVAR GF@B
+DEFVAR GF@C
+DEFVAR GF@D
+DEFVAR GF@Vysledek
+MOVE GF@A string@ABCD
+MOVE GF@B int@0
+MOVE GF@C bool@true
+TYPE GF@Vysledek GF@A
+WRITE GF@Vysledek
+TYPE GF@Vysledek GF@B
+WRITE GF@Vysledek
+TYPE GF@Vysledek GF@C
+WRITE GF@Vysledek
+TYPE GF@Vysledek GF@D
+WRITE GF@Vysledek

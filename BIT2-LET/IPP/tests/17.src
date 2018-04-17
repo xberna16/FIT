@@ -1,0 +1,18 @@
+.IPPcode18
+DEFVAR GF@A
+DEFVAR GF@B
+DEFVAR GF@C
+DEFVAR GF@Vysledek
+MOVE GF@A string@ABCD
+MOVE GF@B int@0
+STRLEN GF@C GF@A
+WRITE GF@A
+LABEL while
+JUMPIFEQ end GF@B GF@C
+GETCHAR GF@Vysledek GF@A GF@B
+WRITE GF@Vysledek
+SETCHAR GF@Vysledek int@0 string@X
+WRITE GF@Vysledek
+ADD GF@B GF@B int@1
+JUMP while
+LABEL end
