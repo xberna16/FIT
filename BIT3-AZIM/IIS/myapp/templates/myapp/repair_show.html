@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+{% load group_check %}
+{% block content %}
+{% if request.user|has_group:"verified" or request.user|has_group:"manager" or request.user|has_group:"administrator" %}
+{% if show or request.user|has_group:"administrator"%}
+<h1>Detail opravy</h1>
+<dl class="row">
+  <dt class="col-sm-3">Záznam opravy</dt>
+  <dd class="col-sm-9">{{repair}}</dd>
+    <dt class="col-sm-3">Popis</dt>
+  <dd class="col-sm-9">{{repair.description}}</dd>
+    <dt class="col-sm-3">Den dokončení</dt>
+  <dd class="col-sm-9">{{repair.finished}}</dd>
+    <dt class="col-sm-3">Správce opravy</dt>
+    <dd class="col-sm-9">{{repair.administrated_by}}</dd>
+</dl>
+    
+{% else %}
+    <p>Nejste administrátor, správce zařízení nebo uživatel zařízení!</p> 
+{% endif %}
+{% else %}
+    <p>Bez přihlášení nemáte k této stránce přístup.</p>
+{% endif %}
+{% endblock %}

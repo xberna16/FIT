@@ -1,0 +1,16 @@
+ISA 2018
+V programu myripsniffer chybí podpora výpisu MD5 (formátově se vypíše správně ale nedekóduje)
+
+Programy se přeloží a postaví příkazem make, oba programy by měl spouštět superuser (sudo).
+
+Formát spouštění myripresponse:	sudo ./myripresponse -i <rozhraní> -r <IPv6>/[16-128] {-n <IPv6>} {-m [0-16]} {-t [0-65535]}
+Formát spouštění myripsniffer:	sudo ./myripsniffer -i <rozhraní>
+
+Příklad spuštění
+./myripresponse -i br1 -r 2001:db8:0:abcd::/64 -n 2002:db8:0:abcd:: -m 12 -t 666
+./myripsniffer -i br1
+
+
+Odevzdávané soubory: Makefile, myripsniffer.cpp, manual.pdf, myripresponse.cpp, README
+
+Nelze stáhnout referenční Linux image na stránce http://nes.fit.vutbr.cz/isa/ISA2015.ova proto byly programy testovány pouze na ubuntu 18.04 a 16.04 + překlad na školním serveru merlin

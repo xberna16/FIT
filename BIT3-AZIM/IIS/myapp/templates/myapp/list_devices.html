@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+{% load group_check %}
+{% block content %}
+{% if request.user|has_group:"verified" or request.user|has_group:"manager" or request.user|has_group:"administrator" %}
+{% if devices_list %}
+    <ul class="list-group">
+    {% for device in devices_list %}
+        <li class="list-group-item"><a href="{{ device.id }}/">{{ device }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Žádná zařízení.</p>
+{% endif %}
+{% else %}
+    <p>Bez přihlášení nemáte k této stránce přístup.</p>
+{% endif %}
+{% endblock %}

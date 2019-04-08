@@ -1,0 +1,38 @@
+
+{% extends "base_generic.html" %}
+{% block content %}
+
+{% if form.errors %}
+  <p>Nesprávná kombinace uživatelského jména a hesla.</p>
+{% endif %}
+
+{% if next %}
+  {% if user.is_authenticated %}
+    <p></p>
+  {% else %}
+    <p></p>
+  {% endif %}
+{% endif %}
+
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+
+<div class="form-group">
+   <label class="form-label">Uživatelské jméno</label>
+  <div><td class="textinput textInput form-control">{{ form.username }}</td></div>
+</div>
+<div class="form-group">
+  <label class="form-label">Heslo</label>
+  <div><td class="textinput textInput form-control">{{ form.password }}</td></div>
+</div>
+
+<div>
+  <input type="submit" value="Přihlásit se" />
+  <input type="hidden" name="next" value="{{ next }}" />
+</div>
+</form>
+
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'password_reset' %}">Zapomenuté heslo?</a></p>
+{% csrf_token %}
+{% endblock %}

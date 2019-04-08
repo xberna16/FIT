@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+{% load group_check %}
+{% block content %}
+{% if request.user|has_group:"verified" or request.user|has_group:"manager" or request.user|has_group:"administrator" %}
+{% if show %}
+    <h1>Historie oprav zařízení</h1>
+    {% if repairs_list %}
+        <ul class="list-group">
+        {% for repair in repairs_list %}
+            <li class="list-group-item"><a href="{{ repair.id }}/">{{ repair }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Žádná historie oprav.</p>
+    {% endif %}
+{% else %}
+    <p>Nejste správcem nebo uživatelem tohoto zařízení!</p>
+{% endif %}
+{% else %}
+    <p>Bez přihlášení nemáte k této stránce přístup.</p>
+{% endif %}
+{% endblock %}

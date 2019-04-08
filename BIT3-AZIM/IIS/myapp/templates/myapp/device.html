@@ -1,0 +1,13 @@
+{% load group_check %}
+{% extends "base_generic.html" %}
+{% block content %}
+{% if request.user|has_group:"verified" or request.user|has_group:"manager" or request.user|has_group:"administrator" %}
+     <h1>Vyhledávání zařízení</h1>
+     <form method="POST" class="post-form">{% csrf_token %}
+         {{ form.as_p }}
+         <button type="submit" class="save btn btn-default">Save</button>
+     </form>
+{% else %}
+    <p>Bez přihlášení nemáte k této stránce přístup.</p>
+{% endif %}
+{% endblock %}

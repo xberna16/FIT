@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+{% load group_check %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% if request.user|has_group:"verified" or request.user|has_group:"manager" or request.user|has_group:"administrator" %}
+{% if admin %}
+     <h1>Nová oprava</h1>
+     <form method="POST" class="post-form">{% csrf_token %}
+         {{ form|crispy }}
+         <button type="submit" class="save btn btn-default">Save</button>
+     </form>
+{% else %}
+    Zařízení nemá správce, kontaktujte administrátora!
+{% endif %}
+{% else %}
+    <p>Bez přihlášení nemáte k této stránce přístup.</p>
+{% endif %}
+{% endblock %}

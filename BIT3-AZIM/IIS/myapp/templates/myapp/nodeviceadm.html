@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+{% load group_check %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% if request.user|has_group:"administrator" %}
+<h1>{{ title }}</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button type="submit">Uložit změny</button>
+</form>
+{% else %}
+    <p>Bez přihlášení nemáte k této stránce přístup.</p>
+{% endif %}
+{% endblock %}

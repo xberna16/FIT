@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block title %}<title>IS Správy zařízení</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  {% load static %}
+  <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+  {% load group_check %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2">
+      {% block sidebar %}
+        <ul class="sidebar-nav list-group">
+          <li class="list-group-item"><a href="{% url 'index' %}">Domů</a></li>
+          {% if user.is_authenticated %}
+            <li class="list-group-item">Uživatel IS: {{ user.get_username }}</li>
+            {% if request.user|has_group:"verified" %}
+              <li class="list-group-item"><a href="{% url 'mydevices'%}">Moje zařízení</a></li>
+              <li class="list-group-item"><a href="{% url 'repair'%}">Nahlásit opravu</a></li>
+              {% if request.user|has_group:"manager" %}
+                <li class="list-group-item"><a href="{% url 'repair_list' %}" >Nahlášené opravy</a></li>
+              {% endif %}
+                {% if request.user|has_group:"administrator" %}
+                  <li class="list-group-item"><a href="{% url 'nodeviceuser'%}">Zařízení bez uživatele</a></li>
+                  <li class="list-group-item"><a href="{% url 'nodeviceadmin'%}">Zařízení bez správce</a></li>
+                  <li class="list-group-item"><a href="{% url 'verifyUser'%}">Ověřit uživatele</a></li>
+                  <li class="list-group-item"><a href="{% url 'makeManager'%}">Udělat z uživatele správce</a></li>
+                  <li class="list-group-item"><a href="{% url 'newDevice'%}">Přidat nové zařízení</a></li>
+                {% endif %}
+            {% else %}
+              <p>Nejste ověřeným uživatelem, počkejte na ověření!</p>
+            {% endif %}
+            <li class="list-group-item"><a href="{% url 'logout'%}?next={{request.path}}">Odhlásit</a></li>
+          {% else %}
+            <li class="list-group-item"><a href="{% url 'login'%}?next={{request.path}}">Přihlásit</a></li>
+            <li class="list-group-item"><a href="{% url 'register'%}?next={{request.path}}">Registrace</a></li>  
+          {% endif %}
+        </ul>
+      {% endblock %}
+      </div>
+      <div class="col-sm-5 ">{% block content %}{% endblock %}</div>
+      <div class="col-sm-5 "></div>
+    </div>
+  </div>
+</body>
+</html>

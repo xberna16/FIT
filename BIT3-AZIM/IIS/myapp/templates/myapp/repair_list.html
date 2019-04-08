@@ -1,0 +1,34 @@
+{% extends "base_generic.html" %}
+{% load group_check %}
+{% block content %}
+{% if request.user|has_group:"verified" or request.user|has_group:"manager" or request.user|has_group:"administrator" %}
+{% if repairs_list or repairs_tbdone %}
+{% block ndoneRep %}
+    <div >
+    <h2>Nedokončené opravy</h2>
+    <ul class="list-group">
+    {% for repair in repairs_tbdone %}
+        <li class="list-group-item"><a href="{{ repair.id }}/">{{ repair}}</a></li>
+    {% endfor %}
+    </ul>
+    </div>
+    {% endblock %}
+{% block doneRep %}
+    <div>
+    <h2>Hotové opravy</h2>
+    <ul class="list-group">
+    {% for repair in repairs_list %}
+        <li class="list-group-item"><a href="{{ repair.id }}/">{{ repair}}</a></li>
+    {% endfor %}
+    </ul>
+    </div>
+    {% endblock %}
+
+
+{% else %}
+    <p>Žádná zařízení.</p>
+{% endif %}
+{% else %}
+    <p>Bez přihlášení nemáte k této stránce přístup.</p>
+{% endif %}
+{% endblock %}

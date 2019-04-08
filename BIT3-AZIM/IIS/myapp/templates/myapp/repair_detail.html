@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+{% load group_check %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% if request.user|has_group:"verified" or request.user|has_group:"manager" or request.user|has_group:"administrator" %}
+{% if verified %}
+    <h1>Detail opravy</h1>
+    <dl class="row">
+  <dt class="col-sm-3">Záznam opravy</dt>
+  <dd class="col-sm-9">{{repair}}</dd>
+    <dt class="col-sm-3">Popis</dt>
+  <dd class="col-sm-9">{{repair.description}}</dd>
+    <dt class="col-sm-3">Den dokončení</dt>
+  <dd class="col-sm-9">{{repair.finished}}</dd>
+    <dt class="col-sm-3">Správce opravy</dt>
+    <dd class="col-sm-9">{{repair.administrated_by}}</dd><br>
+    
+     <form method="POST" class="post-form">{% csrf_token %}
+         {{ form|crispy }}
+         <button type="submit" class="save btn btn-default">Save</button>
+     </form>
+{% else %}
+    <p>Nejste administrátorem tohoto zařízení!</p>
+{% endif %}
+{% else %}
+    <p>Bez přihlášení nemáte k této stránce přístup.</p>
+{% endif %}
+{% endblock %}
