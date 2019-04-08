@@ -1,4 +1,5 @@
-#ISS
+# ISS
+## 11/12
 Udělal jsem i bonus, jelikož jsem předmět opakoval a chtěl jsem být aktivní. Moc mě bavil
 
 xberna16,Bernard Hynek,BONUS,
