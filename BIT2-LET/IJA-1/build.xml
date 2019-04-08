@@ -1,0 +1,16 @@
+<project name="IJAProjekt">
+	<path id="classpath.test">
+		<pathelement location="build/"/>
+	</path>
+	<property name="src" location="src/"/>
+	<target name="compile">
+		<mkdir dir="build"/>
+		<javac includeantruntime="false" srcdir="${src}" destdir="build/">
+		</javac>
+		<mkdir dir="doc"/>
+		<javadoc sourcepath = "${src}" 
+      destdir = "doc" version = "true" windowtitle = "IJA projekt">
+   </javadoc>
+	</target>
+
+</project>
