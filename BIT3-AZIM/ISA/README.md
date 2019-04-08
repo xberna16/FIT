@@ -1,5 +1,5 @@
-#ISA
-##14,75/20
+# ISA
+## 14,75/20
 
 Dělat projekt pro Veselého není veselý
 
