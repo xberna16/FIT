@@ -1,0 +1,265 @@
+.team .member p{
+	margin-left: 200px;
+}
+.team .member .position{
+	margin-left: 200px;
+	color:#87610B;
+}
+.team .member .name{
+	margin-left: 200px;
+	margin-top:20px;
+	color:#493200;
+	font-weight:bold;
+}
+.team .member img{
+	float:left;
+}
+.team .member{
+	display:inline-block; 
+	width:600px;
+	text-align: left;
+	margin:20px;
+}
+#contForm input[type=submit] {
+	margin:10px auto;
+	padding:10px;
+	display:block;
+	width:80px;
+	color:#a89873;
+	background:#000000;
+	border: 1px solid #493200;
+	cursor:pointer;
+}
+#contForm input[type=submit]:hover{
+	background:#a89873;
+	color:black;
+}
+#contForm input[type=text], input[type=datetime-local], textarea{
+	width:300px;
+	display:block;
+	border-radius:4px;
+	border:1px solid #87610B;
+}
+#contForm select{
+	display:block;
+	border-radius:4px;
+	border:1px solid #87610B;
+	margin:0 auto;
+}
+#contForm{
+	width:300px;
+	margin:0 auto;
+}
+.nabidkaProdej td{
+	width:300px;
+	background-color:#a89873;
+	color:black;
+}
+.nabidkaProdej th{
+	background-color:#493200;
+	color:#a89873;
+}
+.nabidkaProdej{
+	width:960px;
+	border:1px solid;
+	text-align:center;
+	margin:30px 0;
+}
+.left,.right{
+    padding:1px 0.5em;
+    background:#fff;
+    float:right;
+	height:1em;
+}
+.left{
+    float:left;
+	height:1em;
+    clear:both;
+}
+
+.dotted{
+	height:1em;
+    border-bottom: 1px dotted grey;
+    margin-bottom:2px;
+}
+#kavarnaMenu{
+	margin:35px;
+}
+.galerie {
+  margin: 5px;
+  border: 1px solid #87610B;
+  float: left;
+  width: 180px;
+}
+
+.galerie:hover {
+  border: 1px solid #A89873;
+}
+
+.galerie img {
+  width: 100%;
+  height: auto;
+}
+
+.popisek {
+  padding: 15px;
+  text-align: center;
+  color:#000000;
+}
+#footer{
+	background:#493200;
+	color:#a89873;
+}
+#footer a{
+	color:#A89873;
+}
+#footer a:hover{
+	background:#a89873;
+	color:#493200;
+}
+#mapa{
+	display:none;
+	border:1px solid black;
+}
+#MapBtn:hover{
+	background:#a89873;
+	color:black;
+}
+#MapBtn{
+	cursor:pointer;
+	margin:10px auto;
+	padding:15px;
+	display:block;
+	width:100px;
+	color:#a89873;
+	background:#000000;
+	border: 1px solid #493200;
+}
+.onas p{
+	padding:15px;
+	
+}
+.onas {
+	margin:50px auto;
+}
+.aktualita img{
+	display:inline;
+	
+}
+.aktualita p{
+	display:inline-block;
+	max-width:685px;
+	margin:0;
+}
+.aktualita{
+	border-bottom:1px black solid;
+	padding:15px;
+}
+
+#logo_holder{
+	background-image: url("img/kavovar.png");
+	height:540px;
+	background-size:contain;
+}
+.menuitem{
+	margin-right: 60px;
+}
+.clear{
+	clear:both;
+}
+ul li:hover{
+	background-color:#000000;
+	color:#A89873;
+}
+ul li{
+	color:#000000;
+	background-color:#A89873;
+	float:left;
+	list-style-type:none;
+	display:inline-block;
+	width:150px;
+	height:20px;
+	position:relative;
+}
+.active{
+	background-color:#493200 !important;
+	color:#A89873 !important;
+}
+#info ul li{
+	display:none;
+}
+#sluzby ul li{
+	display:none;
+}
+#kontakt ul li{
+	display:none;
+}
+#info:hover ul li{
+	display:block;
+	left:-40px;
+	top:-2px;
+}
+#sluzby:hover ul li{
+	display:block;
+	left:-40px;
+	top:-2px;
+}
+#kontakt:hover ul li{
+	display:block;
+	left:-40px;
+	top:-2px;
+}
+a{
+	text-decoration:none;
+}
+hr{
+	margin:0 0 17px 0;
+}
+h3{
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	font-family: 'Shrikhand', cursive;
+	color:#493200
+}
+h2{
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	font-family: 'Shrikhand', cursive;
+	color:#87610B;
+}
+h1{
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	padding:15px;
+	text-decoration:none;
+	font-size:46px;
+	color:black;
+	text-align:left;
+	font-family: 'Shrikhand', cursive;
+	color:#957D48;
+}
+body{
+	background-image: url("img/bcg.png");
+	background-repeat:repeat;
+	text-align:center;
+	color: #333;
+	font-family: 'Open Sans', sans-serif;
+}
+#navbar{
+	background: #957D48;
+    overflow: hidden;
+    padding-bottom: 40px;
+}
+.mainmenu{
+	height: 100px;
+}
+.wrapper{
+	background-color:white;
+	margin:50px auto;
+	max-width:960px;
+}
+@media print {
+	#header{
+		display:none;
+	}
+	body{
+		background:white;
+	}
+}

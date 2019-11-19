@@ -1,0 +1,294 @@
+/*Hynek Bernard xberna16*/
+.header{
+	
+}
+.content{
+	max-width:1170px;
+	margin:0 auto;
+	padding:0 15px 0 15px;	
+}
+.contact{
+	float:left;
+	margin-top:100px;
+}
+address{
+	text-decoration:none;
+	font-style:initial;
+	width:200px;
+	padding-top:5px;
+	color:#898989;
+	line-height:25px;
+	font-size:14px;
+}
+#section-intro{
+	width:100%;
+	float:left;
+	padding-bottom:100px;
+}
+#section-speaker{
+	width:100%;
+	float:left;
+	background-color:#F0F1F3;
+	color:#0C174F;
+	padding-top:80px;
+	text-align:center;
+	padding-bottom:100px;
+}
+#section-agenda{
+	width:100%;
+	float:left;
+	padding-top:60px;
+	padding-bottom:100px;
+	text-align:center;
+}
+#section-pricing{
+	width:100%;
+	float:left;
+	padding-top:60px;
+	padding-bottom:80px;
+	text-align:center;
+	background-color:#F0F1F3;
+}
+#section-pricing h2{
+	margin-bottom:10px;
+}
+#section-partner{
+	width:100%;
+	float:left;
+	padding-top:100px;
+	text-align:center;
+}
+.copyright-section{
+	width:100%;
+	float:left;
+	text-align:center;
+	color:gray;
+	font-size:12px;
+	margin:140px 0 50px;
+}
+.copyright-section a{
+	text-decoration:none;
+	color:#fd367e;
+}
+.partner{
+	display:inline-block;
+	margin:10px;
+}
+.partner img{
+	max-width:140px;
+}
+.pricing-table-default{
+	background-color:white;
+	width:305px;
+	height:360px;
+	display:inline-block;
+	margin:20px;
+}
+.pricing-table-default .btn{
+	width:160px;
+	height:30px;
+	display:block;
+	background-color:#fd367e;
+	color:white;
+	margin: 0 auto;
+	padding:15px 0 0 0;
+	text-decoration:none;
+	margin-top:-10px;
+}
+.pricing-table-default ul{
+	list-style:none;
+	padding:0;
+}
+.pricing-table-default li{
+	width:305px;
+	margin-bottom:30px;
+}
+.pricing-head h3{
+	color:white;
+	height:31px;
+	font-size: 13px;
+	padding-top:18px;
+	margin:0;
+}
+.pricing-head{
+	background-size:46px;
+	width:305px;
+	background-color:#0C174F;
+}
+.price sup{
+	font-size:25px;
+}
+.price{
+	font-weight:bold;
+	display:block;
+	background-color:white;
+	width:305px;
+	font-size:48px;
+	color:#373F56;
+	padding-top:40px;
+}
+.section-title p{
+	margin-bottom:75px;
+	color:#898989;
+}
+.agenda-part{
+	width:375px;
+	float:left;
+}
+.agenda-part h4{
+	color:#0C174F;
+	text-transform:uppercase;
+	border-left:1px lightgray solid;
+	margin:0;
+	padding:10px 20px;
+	font-weight:300;
+}
+.session{
+	max-width:260px;
+	margin-bottom:40px;
+	text-align:initial;
+}
+.session span{
+	font-size:9px;
+	width:100%;
+	display:block;
+}
+.agenda-part h3{
+	color:#0C174F;
+	text-transform:capitalize;
+	padding:20px;
+	border-left:1px lightgray solid;
+	font-size:25px;
+	margin:0;
+	font-weight:300;
+	
+}
+.agenda-part time{
+	color:#898989;
+	padding:20px;
+	border-left:1px lightgray solid;
+	border-bottom:1px lightgray solid;
+	font-size:15px;	
+	font-weight:bold;
+	display:block;
+}
+
+figure{
+	width:250px;
+	height:380px;
+	display:inline-block;
+	margin:16px 19px;
+}
+figure small{
+	display:block;
+	color:#898989;
+	margin-top:5px;
+	font-weight:300;
+}
+h2{
+	font-size:36px;
+	color:#0C174F;
+	text-align:center;
+	text-transform:uppercase;
+}
+h3{
+	text-transform:uppercase;
+	width:100%;
+}
+
+address strong{
+	color:#3B3E51;
+}
+.main-menu li a:hover{
+	color:#fd367e
+}
+.logo{
+	float:left;
+	padding-top:60px;
+}
+#main{
+	width:100%;
+	float:left;
+}
+h1{
+	text-align:center;
+	max-width:875px;
+	margin: 40px auto;
+}
+.main-title .content p{
+	display:block;
+	margin: 0 auto;
+	color:gray;
+	font-size:24px;
+	text-align:center;
+	max-width:880px;
+	line-height:40px;
+}
+#section-intro .lead p{
+	margin-bottom:19px;
+}
+#section-intro .lead{
+	max-width:730px;
+	margin-top:100px;
+	font-size:19px;
+	color:#373952;
+	float:left;
+	line-height:30px;
+}
+.event-date{
+	font-size:24px;
+	text-align:center;
+	padding-top:200px;
+}
+.main-title .btn{
+	width:225px;
+	height:40px;
+	border:1px white solid;
+	display:block;
+	margin:64px auto;
+	text-align:center;
+	padding:20px 0 0 0;
+	color:white;
+	text-decoration:none;
+}
+.main-title .btn:hover{
+	color:#fd367e;
+	border:1px #fd367e solid;	
+}
+.main-menu{
+	float:right;	
+	font-size:15px;
+	text-transform:uppercase;
+	padding-top:60px;
+}
+.main-menu li {
+	display:inline-block;
+	color:white;
+}
+.main-menu li a{
+	color:white;
+	text-decoration:none;
+	margin-right:15px;
+}
+section{
+	color:black;
+}
+.main-title{
+	background-image: url("img/img-jumbotron-bg.jpg");
+	background-position: center top;
+	background-size:205vh;
+	background-clip:content-box;
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+	height:880px;
+}
+h1{
+	font-size: 64px;
+}
+p{
+	margin:0;
+}
+body{
+	font-family:arial;
+	color:white;
+}

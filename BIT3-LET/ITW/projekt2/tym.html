@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="cs">
+	<head>
+		<title>Kavárna u stroje</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
+	</head>
+	<body>
+		<div class="wrapper">
+			<div id="header"></div>
+			<div class="clear"></div>
+			<hr>
+			<div class="content">
+				<h2>Náš tým</h2>
+				<div class="team">
+					<div class="member">
+						<img alt="Hynek Bernard" src="img/hynek.jpg" style="width: 170px; height: 255px;" title="Hynek Bernard">
+						<div class="name">Hynek Bernard
+						</div>
+						<div class="position">
+							Majitel, webdesigner
+						</div>
+						<p>
+							Na grafiku nemá střevo, ale za to kód píše hezky. Tento projekt udělal podle svého nejlepšího vědomí a svědomí. Myslí si že splnil všechny body zadání a velmi se stydí za grafický design, lepší nevypotil ani po několika dnech.
+						</p>
+					</div>
+					<div class="member">
+						<img alt="Monika Burešová" src="img/monika.jpg" style="width: 170px; height: 255px;" title="Monika Burešová">
+						<div class="name">Monika Burešová
+						</div>
+						<div class="position">
+							Spolužačka, líná veš
+						</div>
+						<p>
+							Kamarádka konkurující Hynkovi v předmětu ITW, určitě bude mít web šerednější než on, protože všechno dělá napůl a na poslední chvíli.
+						</p>
+					</div>
+					<div class="member">
+						<img alt="Gertrdua Nováková" src="img/gertruda.jpg" style="width: 170px; height: 255px;" title="Gertrdua Nováková">
+						<div class="name">Gertrdua Nováková
+						</div>
+						<div class="position">
+							Barista
+						</div>
+						<p>
+							Py k chesréce mouk řihřou getěďpi třeďouco bu saš nicclo brézy. Truž člyn chlebu něžroč hlu. Blouk dréhé ubré vij ni mlydib mryvon v zrév sloblí o hlyž. Měbu člizkávevřu my krutě stýň blouvevy. A dišil a mabyři niťglyklustá? Měně pyn tě tluni di údlouh můfrýdram sotěvruž břopý kléprá třániglů. K tib vučvřáky viš o žeděď. Tliskla k otě dicpiř dič nědi táděnitrý hleč so tiďaklap. Slouť břogro zkytěs k slohroš grévyl i frušt srousoptost dléšketě chlůtě nivyk.
+						</p>
+					</div>
+                </div>
+			</div>
+			<div class="clear"></div>
+			<div id="footer"></div>
+		</div>
+		<script>
+		
+	$(document).ready(function(){
+   
+		$('#header').load("header.html");
+		$('#footer').load("footer.html");
+		$('#kontakt').addClass("active");
+	});
+	
+	$(window).on('load', function()
+	{
+	
+		$('#kontakt').addClass("active");
+	});
+		
+		</script>
+	</body>
+</html>			 
