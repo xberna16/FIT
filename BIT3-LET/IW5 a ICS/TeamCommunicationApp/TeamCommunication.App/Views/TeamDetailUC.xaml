@@ -1,0 +1,110 @@
+﻿<UserControl x:Class="TeamCommunication.App.Views.TeamDetailUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewModels="clr-namespace:TeamCommunication.App.ViewModels"
+             xmlns:interactions="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:TeamCommunication.App.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="192"
+             d:DataContext="{d:DesignInstance viewModels:TeamDetailViewModel}"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=TeamDetailViewModel}"
+             >
+
+    <Grid>
+        <TabControl>
+            <TabItem Header="Topics">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding TeamModel.Description, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" MaxWidth="192" />
+
+                    <ListBox x:Name="TopicListBox" Grid.Row="1" ItemsSource="{Binding TopicList}">
+                        <interactions:Interaction.Triggers>
+                            <interactions:EventTrigger EventName="SelectionChanged">
+                                <interactions:InvokeCommandAction Command="{Binding TopicSelectedCommand}"
+                                                      CommandParameter="{Binding ElementName=TopicListBox, Path=SelectedItem}" />
+                            </interactions:EventTrigger>
+                        </interactions:Interaction.Triggers>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="{Binding Heading}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Date}" FontSize="10" HorizontalAlignment="Right" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <StackPanel Grid.Row="2">
+                        <TextBlock TextWrapping="Wrap" Text="Heading:" />
+                        <TextBox Name="TopicHeading" Text="{Binding TopicModel.Heading, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
+                        <TextBlock TextWrapping="Wrap" Text="Text:" />
+                        <TextBox Name="TopicText" Text="{Binding TopicModel.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Name="AddTopicButton" Content="Add Topic" Width="75" HorizontalAlignment="Right" Command="{Binding AddTopicCommand}" Margin="0,0,2,0"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Add User">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="76*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="UserAddListBox" Grid.ColumnSpan="3" ItemsSource="{Binding UsersAdd}">
+                        <interactions:Interaction.Triggers>
+                            <interactions:EventTrigger EventName="SelectionChanged">
+                                <interactions:InvokeCommandAction Command="{Binding UserAddSelectedCommand}"
+                                                      CommandParameter="{Binding ElementName=UserAddListBox, Path=SelectedItem}" />
+                            </interactions:EventTrigger>
+                        </interactions:Interaction.Triggers>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="{Binding Nickname}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Name="AddUserToTeamButton" Content="Add User" Width="75" HorizontalAlignment="Right" Command="{Binding AddUserCommand}" Grid.Row="1" Grid.Column="2" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Remove User">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="UserRemoveListBox" ItemsSource="{Binding UsersRemove}" >
+                        <interactions:Interaction.Triggers>
+                            <interactions:EventTrigger EventName="SelectionChanged">
+                                <interactions:InvokeCommandAction Command="{Binding UserRemoveSelectedCommand}"
+                                                      CommandParameter="{Binding ElementName=UserRemoveListBox, Path=SelectedItem}" />
+                            </interactions:EventTrigger>
+                        </interactions:Interaction.Triggers>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="{Binding Nickname}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Name="RemoveUserFromTeamButton" Content="Remove" Width="75" Command="{Binding RemoveUserCommand}" HorizontalAlignment="Right" Grid.Row="1" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
