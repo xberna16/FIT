@@ -1,0 +1,16 @@
+Spuštění aplikace
+Použití: dns [-r] [-x] [-6] -s server [-p port] adresa
+
+Pořadí parametrů je libovolné. Popis parametrů:
+
+    -r: Požadována rekurze (Recursion Desired = 1), jinak bez rekurze.
+    -x: Reverzní dotaz místo přímého.
+    -6: Dotaz typu AAAA místo výchozího A.
+    -s: IP adresa nebo doménové jméno serveru, kam se má zaslat dotaz.
+    -p port: Číslo portu, na který se má poslat dotaz, výchozí 53.
+    adresa: Dotazovaná adresa.
+testy byly spouštěny skrz google tests, pro zprovoznění je nutné přidat do složky tests tuto složku https://github.com/google/googletest.git pojmenovanou googletest-master a spustit přes CMake, přikládám soubor s konfigurací CmakeLists.txt
+program je přeložitelný na serverech merlin i eva, ale program na eva nepřijímá packety, pro nedostatek programového vybavení na serveru a přístupových práv nemohu otestovat a zjistit příčinu, nemám jak zjistit pohyb na síti.
+testování jsem prováděl ručně, přidané testy byly dodělány až po dokončení projektu, proto je program otestovaný mnohem více než skrz automatizované testy. Unit-testing je pro c++ tak nepohodlný a složitý, že se nevyplatil investovat další čas.
+program rozpozná všechny typy záznamů specifikované v RFC1035 a typ AAAA, běžné typy jsou vypsány v čitelném formátu, obsolete a experimentální jsou vypsány pouze jako text.
+Odevzdávané soubory: Makefile, main.cpp, manual.pdf, DNSPacket.cpp, DNSPacket.h, CmakeLists.txt, test.cpp, test.h, README
